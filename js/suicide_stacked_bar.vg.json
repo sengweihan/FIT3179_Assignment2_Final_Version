@@ -1,0 +1,83 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/sengweihan/FIT3179_Assignment2_Final_Version/main/data/cleaned_gender_suicide.csv"
+  },
+  "width": 750,
+  "height": 400,
+  "background": "black",
+
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "gender_highlight",
+          "select": { "type": "point", "fields": ["sex"] },
+          "bind": "legend"
+        }
+      ],
+
+      "mark": "bar",
+      "encoding": {
+        "y": {
+          "aggregate": "sum",
+          "field": "suicides_no",
+          "title": "Suicide Cases",
+          "axis": { "format": "s" }
+        },
+        "x": { "field": "year", "type": "ordinal", "title": "Year" },
+        "color": {
+          "field": "sex",
+          "scale": { "range": ["#AA336A", "#255eba"] },
+          "title": "Gender"
+        },
+
+        "tooltip": [
+          { "field": "sex", "type": "nominal", "title": "Gender" },
+          { "field": "year", "type": "ordinal", "title": "Year" },
+          {
+            "field": "suicides_no",
+            "type": "quantitative",
+            "title": "Suicide Cases",
+            "format": ","
+          }
+        ],
+        "opacity": {
+          "condition": { "param": "gender_highlight", "value": 1 },
+          "value": 0.2
+        }
+      }
+    },
+    {
+      "mark": "rule",
+      "encoding": {
+        "y": {
+          "aggregate": "q3",
+          "field": "suicides_no",
+          "type": "quantitative"
+        },
+        "color": { "value": "goldenrod" },
+        "size": { "value": 4 }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "text": "Third Quartile(Q3)",
+        "size": 15,
+        "align": "left"
+      },
+
+      "encoding": {
+        "color": { "value": "goldenrod" },
+        "x": { "value": 10 },
+        "y": { "value": 80 }
+      }
+    }
+  ],
+  "config": {
+    "view": { "stroke": null },
+    "axis": { "grid": false, "titleColor": "white", "labelColor": "aliceblue" },
+    "legend": { "labelColor": "aliceblue", "titleColor": "white" }
+  }
+}
